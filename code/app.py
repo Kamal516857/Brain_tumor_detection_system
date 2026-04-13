@@ -188,7 +188,7 @@ def load_model_and_config():
             config = json.load(f)
 
         # ---------------- MODEL ----------------
-        model_path = os.path.join(BASE_DIR, 'ensemble_model.h5')
+        model_path = os.path.join(BASE_DIR, 'ensemble_model.keras')
 
         if not os.path.exists(model_path):
             return None, config, False, f"Model file not found at {model_path}"
@@ -250,7 +250,7 @@ def main():
     # Check if model is loaded
     if not model_loaded:
         st.error(f"❌ {status_msg}")
-        st.info("Make sure ensemble_model.h5 and config.json are in the same directory as this app.")
+        st.info("Make sure ensemble_model.keras and config.json are in the same directory as this app.")
         return
     
     # Success message
