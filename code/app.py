@@ -189,13 +189,15 @@ def load_model_and_config():
             config = json.load(f)
 
         # ---------------- MODEL ----------------
-        model_path = os.path.join(BASE_DIR, 'ensemble_model.keras')
-
+        model_path = os.path.join(BASE_DIR, 'ensemble_model.keras') 
+        
+        st.write("Loading model from:", model_path)
+        st.write("File exists:", os.path.exists(model_path))
+        if os.path.exists(model_path):
+            st.write("File size:", os.path.getsize(model_path), "bytes")
         if not os.path.exists(model_path):
             return None, config, False, f"Model file not found at {model_path}"
-
         model = load_model(model_path, compile=False)
-
         return model, config, True, "Model loaded successfully"
 
     except Exception as e:
