@@ -6,3 +6,4 @@ plotly==5.18.0
 scikit-learn==1.4.2
 opencv-python-headless==4.9.0.80
 requests==2.31.0
+rich==13.9.4
