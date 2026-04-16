@@ -6,6 +6,8 @@ from tensorflow.keras.models import load_model # type: ignore
 import json
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo  
+IST = ZoneInfo("Asia/Kolkata")  
 import plotly.graph_objects as go
 import plotly.express as px
 
@@ -283,7 +285,7 @@ def main():
         st.subheader("✅ System Status")
         st.write("Model: Loaded ✓")
         st.write("Config: Loaded ✓")
-        st.write(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        st.write(f"Time: {datetime.now(IST).strftime('%Y-%m-%d %H:%M:%S')}")
         
         st.divider()
         
@@ -393,7 +395,7 @@ def main():
                         st.metric("Status", "⚠️ Alert")
                 
                 with col_m3:
-                    st.metric("Time", datetime.now().strftime("%H:%M:%S"))
+                    st.metric("Time", datetime.now(IST).strftime("%H:%M:%S"))
                 
                 st.divider()
                 
@@ -496,7 +498,7 @@ def main():
                     BRAIN TUMOR DETECTION - ANALYSIS REPORT
 ================================================================================
 
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated: {datetime.now(IST).strftime('%Y-%m-%d %H:%M:%S')}
 File: {st.session_state.get('uploaded_filename', 'unknown')}
 
 ================================================================================
@@ -546,7 +548,7 @@ Always seek professional medical advice for accurate diagnosis.
                 st.download_button(
                     label="📄 Download Report (TXT)",
                     data=report,
-                    file_name=f"tumor_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+                    file_name=f"tumor_analysis_{datetime.now(IST).strftime('%Y%m%d_%H%M%S')}.txt",
                     mime="text/plain",
                     use_container_width=True
                 )
