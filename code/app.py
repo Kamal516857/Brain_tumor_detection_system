@@ -1,12 +1,10 @@
-import tensorflow as tf
 import streamlit as st
-st.write("TF VERSION:", tf.__version__)
-import os
-os.environ["TF_USE_LEGACY_KERAS"] = "1"
-from keras.models import load_model
 import numpy as np
 from PIL import Image
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 import json
+import os
 from datetime import datetime
 import plotly.graph_objects as go
 import plotly.express as px
@@ -190,16 +188,13 @@ def load_model_and_config():
             config = json.load(f)
 
         # ---------------- MODEL ----------------
-        model_path = os.path.join(BASE_DIR, 'ensemble_model_fixed.h5') 
-        
-        st.write("Loading model from:", model_path)
-        st.write("File exists:", os.path.exists(model_path))
-        if os.path.exists(model_path):
-            st.write("File size:", os.path.getsize(model_path), "bytes")
+        model_path = os.path.join(BASE_DIR, 'ensemble_model.h5')
+
         if not os.path.exists(model_path):
             return None, config, False, f"Model file not found at {model_path}"
-        model = tf.keras.models.load_model( model_path, compile=False,
-                                           custom_objects={ "InputLayer": tf.keras.layers.InputLayer } )
+
+        model = load_model(model_path, compile=False)
+
         return model, config, True, "Model loaded successfully"
 
     except Exception as e:
@@ -255,7 +250,7 @@ def main():
     # Check if model is loaded
     if not model_loaded:
         st.error(f"❌ {status_msg}")
-        st.info("Make sure ensemble_model_fixed.h5 and config.json are in the same directory as this app.")
+        st.info("Make sure ensemble_model.h5 and config.json are in the same directory as this app.")
         return
     
     # Success message
@@ -349,8 +344,6 @@ def main():
                     st.session_state.show_results = False
                     st.session_state.uploaded_image = None
                     st.rerun()
-        
-        
         
         # Results section
         if st.session_state.show_results and st.session_state.uploaded_image:
